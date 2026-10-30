@@ -1,0 +1,133 @@
+/* Fondasi: variabel desain, reset, tipografi, utilitas.
+   Ganti warna/font brand cukup di blok :root. */
+
+:root {
+  --font-heading: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-ink: #0a1a2f;          /* teks utama + tombol utama */
+  --color-text: #1c2a3c;
+  --color-muted: #5a6779;
+  --color-accent: #2447c4;       /* aksen biru */
+  --color-accent-soft: #e8edfb;
+  --color-tint: #f4f6fb;         /* latar section selang-seling */
+  --color-surface: #ffffff;
+  --color-border: #e3e8f1;
+  --color-dark: #07142a;         /* hero, band CTA, footer */
+  --color-success: #1f7a5a;
+  --color-success-soft: #dff3ea;
+
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --shadow: 0 1px 2px rgba(10, 26, 47, 0.04), 0 10px 30px -12px rgba(10, 26, 47, 0.12);
+  --shadow-lg: 0 2px 4px rgba(10, 26, 47, 0.04), 0 24px 48px -16px rgba(10, 26, 47, 0.22);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --container: 1160px;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --section-space: clamp(3.5rem, 8vw, 6rem);
+}
+
+/* Area gelap (hero, footer): warna diganti lewat variabel, sehingga komponen di dalamnya ikut menyesuaikan. */
+.theme-dark,
+.hero,
+.edu-hero,
+.about-hero,
+.site-footer {
+  --color-ink: #ffffff;
+  --color-text: #dbe3ef;
+  --color-muted: #a3b1c6;
+  --color-accent: #8fb0ff;
+  --color-accent-soft: rgba(143, 176, 255, 0.14);
+  --color-tint: rgba(255, 255, 255, 0.06);
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --color-success: #7fdcb6;
+  --color-success-soft: rgba(127, 220, 182, 0.14);
+  color: var(--color-text);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+img, svg { max-width: 100%; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  color: var(--color-ink);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.6em;
+}
+h1 { font-size: clamp(2.3rem, 5.4vw, 3.9rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.06; }
+h2 { font-size: clamp(1.75rem, 3.6vw, 2.6rem); font-weight: 700; letter-spacing: -0.03em; }
+h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+
+p { margin: 0 0 1em; }
+a { color: var(--color-accent); }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section { padding-block: var(--section-space); }
+.section--tint { background: var(--color-tint); }
+
+.icon {
+  width: 1.25em;
+  height: 1.25em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--color-ink);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  z-index: 100;
+}
+.skip-link:focus { top: 1rem; }
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

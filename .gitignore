@@ -1,0 +1,10 @@
+# Catatan internal dan data klien: jangan dikirim ke repository publik
+docs/
+
+# Pengaturan lokal editor dan asisten
+.claude/
+.vscode/
+
+# File sistem Windows
+Thumbs.db
+desktop.ini

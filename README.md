@@ -27,15 +27,19 @@ Per 31 Oktober 2026:
 | 8 halaman utama: Beranda, Tentang Saya, Solusi, Edukasi, Tanya Jawab, Kontak, Konsultasi Gratis, Kebijakan Privasi | Selesai dibuat, isi masih placeholder |
 | Halaman artikel `edukasi/artikel-1.html` sampai `artikel-3.html` | **Belum dibuat.** File masih kosong, jadi tautannya menampilkan halaman putih. |
 | `robots.txt` dan `sitemap.xml` | **Kosong.** Diisi setelah domain ada (contoh isinya di [bagian 6](#6-deployment)). |
-| `docs/konten-dari-klien.md` dan `docs/checklist-qa.md` | Kosong |
+| `docs/checklist-qa.md` | Terisi: checklist dan hasil pengujian per 31 Oktober 2026 |
+| `docs/konten-dari-klien.md` | Kosong |
 | Konten asli dari klien (nama, foto, kontak, profil) | Belum ada. Semua ditandai `[...]`. |
 
 **Sudah diuji:**
 - Validasi formulir: 15 kasus uji lolos (nomor valid dan tidak valid, field wajib, batas panjang pesan).
-- Tampilan desktop (1366 px) dan mobile (390 px), lewat screenshot.
+- Tampilan kedelapan halaman di desktop (1366 px) dan mobile (390 px), lewat screenshot.
+- Struktur HTML dengan `docs/qa-check.js`: 198 tautan internal, id, atribut ARIA, judul, dan deskripsi halaman. Satu-satunya masalah: tautan ke 3 halaman artikel yang masih kosong.
 - Penempatan foto asli di kotak placeholder, lewat halaman uji dengan foto contoh.
 
-**Belum diuji:** animasi di browser sungguhan, tampilan di HP asli, Firefox dan Safari, alur formulir ke WhatsApp dengan nomor klien, dan skor Lighthouse.
+**Belum diuji:** animasi dan klik di browser sungguhan, tampilan di HP asli, Firefox dan Safari, alur formulir ke WhatsApp dengan nomor klien, dan skor Lighthouse.
+
+Rincian 62 item uji beserta hasilnya ada di `docs/checklist-qa.md`.
 
 ---
 
@@ -78,7 +82,10 @@ Web Assurance/
 │   │   └── faq.js           Accordion tanya jawab (Beranda, Solusi, Tanya Jawab)
 │   ├── img/                 Foto dan logo dari klien
 │   └── fonts/               Kosong (font dimuat dari Google Fonts)
-├── docs/                    Catatan internal proyek (jangan diunggah ke hosting)
+├── docs/                    Catatan internal (jangan diunggah ke hosting)
+│   ├── checklist-qa.md      Checklist dan hasil pengujian
+│   ├── qa-check.js          Skrip pemeriksa tautan dan struktur HTML
+│   └── konten-dari-klien.md Daftar bahan dari klien (belum diisi)
 ├── robots.txt               Aturan untuk mesin pencari (diisi saat deploy)
 ├── sitemap.xml              Daftar halaman untuk Google (diisi saat deploy)
 └── README.md                Dokumen ini
@@ -329,6 +336,8 @@ Opsional: daftarkan domain di [Google Search Console](https://search.google.com/
 ---
 
 ## 7. Checklist sebelum serah terima
+
+Checklist pengujian yang lebih rinci, beserta hasilnya, ada di `docs/checklist-qa.md`. Pemeriksaan tautan dan struktur HTML bisa dijalankan ulang kapan saja dengan perintah `node docs/qa-check.js` dari folder proyek (butuh Node.js).
 
 - [ ] Tidak ada lagi teks `[...]` di halaman (cari `[` di semua file).
 - [ ] Nomor WhatsApp asli sudah dipasang di `main.js` dan di semua HTML. Tombol WhatsApp dan formulir sudah dicoba, dan chat terbuka ke nomor yang benar.
