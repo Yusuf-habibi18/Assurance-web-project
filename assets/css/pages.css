@@ -413,19 +413,32 @@
   --color-border: #e3e8f1;
 }
 
-/* ---------- Mobile: kartu kecil 2 kolom agar mirip versi laptop ---------- */
+/* ---------- Mobile: kartu berjajar ke samping, digeser (swipe) ---------- */
 @media (max-width: 599px) {
   .grid-4,
-  .feature-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-  .grid-4 .card,
-  .feature-grid .card { padding: 1rem; }
-  .grid-4 .card__icon,
-  .feature-grid .card__icon { width: 36px; height: 36px; margin-bottom: 0.75rem; }
-  .grid-4 .card h3,
-  .feature-grid .card h3 { font-size: 0.98rem; }
-  .grid-4 .card p,
-  .feature-grid .card p { font-size: 0.84rem; line-height: 1.55; }
-  .grid-4 .tag { font-size: 0.68rem; }
+  .grid-3,
+  .feature-grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 80%; /* kartu berikutnya terlihat sebagian sebagai petunjuk geser */
+    gap: 0.75rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    /* Melebar sampai tepi layar; padding atas-bawah memberi ruang untuk bayangan kartu */
+    margin: -0.5rem calc(-1 * var(--gutter)) -1.5rem;
+    padding: 0.5rem var(--gutter) 1.5rem;
+  }
+  .grid-4::-webkit-scrollbar,
+  .grid-3::-webkit-scrollbar,
+  .feature-grid::-webkit-scrollbar { display: none; }
+  .grid-4 > *,
+  .grid-3 > *,
+  .feature-grid > * { scroll-snap-align: start; }
+  .sol > * { min-width: 0; } /* slider di dalam kolom tidak ikut melebarkan halaman */
 
   .hero__photo { aspect-ratio: 16 / 10; }
   .about-hero__photo { aspect-ratio: 4 / 3; }

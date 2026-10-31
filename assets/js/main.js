@@ -63,18 +63,27 @@ if (!reduceMotion && "IntersectionObserver" in window) {
     ".pyramid__layer, .callout, .claim-band, .channel, .consult-steps li, .consult-alt, .prose > *"
   );
 
+  const show = (el) => {
+    el.classList.add("is-visible");
+    observer.unobserve(el);
+    // Lepas kelas setelah animasi selesai agar efek hover kartu tidak ikut tertunda.
+    const delay = parseInt(el.style.getPropertyValue("--reveal-delay"), 10) || 0;
+    setTimeout(() => {
+      el.classList.remove("reveal", "is-visible");
+      el.style.removeProperty("--reveal-delay");
+    }, 900 + delay);
+  };
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      const el = entry.target;
-      el.classList.add("is-visible");
-      observer.unobserve(el);
-      // Lepas kelas setelah animasi selesai agar efek hover kartu tidak ikut tertunda.
-      const delay = parseInt(el.style.getPropertyValue("--reveal-delay"), 10) || 0;
-      setTimeout(() => {
-        el.classList.remove("reveal", "is-visible");
-        el.style.removeProperty("--reveal-delay");
-      }, 900 + delay);
+      const parent = entry.target.parentElement;
+      // Di slider mobile, kartu yang masih tersembunyi di samping ikut dimunculkan.
+      if (parent.scrollWidth > parent.clientWidth) {
+        parent.querySelectorAll(":scope > .reveal:not(.is-visible)").forEach(show);
+      } else {
+        show(entry.target);
+      }
     });
   }, { rootMargin: "0px 0px -8% 0px", threshold: 0.1 });
 
