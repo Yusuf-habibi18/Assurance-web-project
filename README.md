@@ -432,7 +432,7 @@ Kalau ragu apakah suatu isi boleh dimuat, klien perlu menanyakannya dulu ke BDM 
 
 - **Teknologi:** HTML, CSS, dan JavaScript tanpa library. Total JavaScript sekitar 16 KB.
 - **Browser:** versi terbaru Chrome, Edge, Firefox, dan Safari, baik desktop maupun HP. Beberapa efek, seperti blur pada header dan sorotan pertanyaan yang sedang terbuka, memakai fitur CSS yang baru. Di browser lama efek itu tidak tampil, tetapi website tetap berfungsi.
-- **Font:** [Quicksand](https://fonts.google.com/specimen/Quicksand) untuk judul dan [Nunito](https://fonts.google.com/specimen/Nunito) untuk teks isi, dari Google Fonts, dengan lisensi SIL Open Font License 1.1 yang mengizinkan penggunaan komersial.
+- **Font:** [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) untuk judul dan [Inter](https://fonts.google.com/specimen/Inter) untuk teks isi, dari Google Fonts, dengan lisensi SIL Open Font License 1.1 yang mengizinkan penggunaan komersial.
 - **Ilustrasi** di `assets/img/ilustrasi/` dibuat khusus untuk proyek ini (bukan aset pihak ketiga), sehingga bebas dipakai dan diubah oleh klien.
 - **Ikon:** berasal dari set ikon [Lucide](https://lucide.dev), lisensi ISC. Copyright © Lucide Contributors; sebagian © Cole Bemis (Feather, lisensi MIT). Teks lisensi lengkap: <https://lucide.dev/license>.
 - **Foto, logo, dan teks dari klien** menjadi tanggung jawab klien, termasuk hak ciptanya.
