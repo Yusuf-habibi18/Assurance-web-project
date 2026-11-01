@@ -30,12 +30,15 @@ Per 1 November 2026:
 | `docs/checklist-qa.md` | Terisi: checklist dan hasil pengujian per 31 Oktober 2026 |
 | `docs/konten-dari-klien.md` | Kosong |
 | Konten asli dari klien (nama, foto, kontak, profil) | Belum ada. Semua ditandai `[...]`. |
+| Ilustrasi | 13 ilustrasi SVG terpasang di hero, halaman Solusi, dan gambar artikel (1 November 2026). Hero Beranda dan Solusi memakai ilustrasi perisai tanpa latar yang bergerak pelan. Foto konsultan masih menunggu klien. |
+| Kepatuhan pedoman Manulife Agency ([bagian 8](#8-ketentuan-konten-asuransi)) | Isi website sudah diaudit: tidak ada logo atau nama Manulife selain di disclaimer afiliasi, dan tidak ada klaim berlebihan. Disclaimer afiliasi terpasang di footer semua halaman. **Kalimat disclaimer perlu dikonfirmasi klien.** |
 
 **Sudah diuji:**
 - Validasi formulir: 15 kasus uji lolos (nomor valid dan tidak valid, field wajib, batas panjang pesan).
 - Tampilan kedelapan halaman di desktop (1366 px) dan mobile (390 px), lewat screenshot.
 - Struktur HTML dengan `docs/qa-check.js`: 198 tautan internal, id, atribut ARIA, judul, dan deskripsi halaman. Satu-satunya masalah: tautan ke 3 halaman artikel yang masih kosong.
 - Kalkulator protection gap (1 November 2026, Edge headless): angka contoh klien (pengeluaran 5 juta, perlindungan 100 juta, 11 tahun) menghasilkan kebutuhan Rp 660.000.000 dan kesenjangan Rp 560.000.000, sama dengan contoh. Juga dicek: rincian tambahan, bagian hasil yang tersembunyi saat isiannya kosong, format ribuan, dan isi pesan WhatsApp. Tampilan dicek di 390 px dan 1366 px. Setelah halaman ini ditambahkan, `qa-check.js` memeriksa 240 tautan dan hanya menemukan masalah lama yang sama.
+- Upgrade tampilan (1 November 2026, Edge sungguhan lewat Playwright): tidak ada error JavaScript di 9 halaman, baik di lebar 1366 px maupun 390 px. Menu HP, titik slider, kartu kategori yang bisa diklik, dan penanda kategori di Solusi berfungsi. Kalkulator tetap menghasilkan angka contoh klien. `qa-check.js` memeriksa 246 tautan, dan masalahnya tetap hanya 3 halaman artikel yang kosong.
 - Penempatan foto asli di kotak placeholder, lewat halaman uji dengan foto contoh.
 
 **Belum diuji:** animasi dan klik di browser sungguhan, tampilan di HP asli, Firefox dan Safari, alur formulir ke WhatsApp dengan nomor klien, dan skor Lighthouse.
@@ -79,11 +82,12 @@ Web Assurance/
 │   │   ├── components.css   Komponen bersama: tombol, header, kartu, formulir, footer, animasi
 │   │   └── pages.css        Gaya khusus tiap halaman
 │   ├── js/
-│   │   ├── main.js          Nomor WhatsApp, menu HP, header, animasi scroll
+│   │   ├── main.js          Nomor WhatsApp, menu HP, header, animasi scroll, titik slider, penanda kategori Solusi
 │   │   ├── form.js          Validasi formulir dan penyusunan pesan WhatsApp
 │   │   ├── kalkulator.js    Hitungan kalkulator protection gap dan pesan WhatsApp hasilnya
 │   │   └── faq.js           Accordion tanya jawab (Beranda, Solusi, Tanya Jawab)
-│   ├── img/                 Foto dan logo dari klien
+│   ├── img/                 Foto dan logo usaha dari klien
+│   │   └── ilustrasi/       13 ilustrasi SVG buatan sendiri + 2 versi diam (hero, Solusi, gambar artikel)
 │   └── fonts/               Kosong (font dimuat dari Google Fonts)
 ├── docs/                    Catatan internal (jangan diunggah ke hosting)
 │   ├── checklist-qa.md      Checklist dan hasil pengujian
@@ -151,6 +155,17 @@ Satu tombol bisa diberi pesan awal sendiri dengan mengisi atributnya:
 - Konten di bawah layar muncul saat di-scroll. `main.js` memasang kelas `reveal` pada kartu dan section.
 - Semua animasi otomatis mati bila pengunjung mengaktifkan pengaturan "kurangi gerakan" (*reduce motion*) di perangkatnya. Konten tetap tampil normal walaupun JavaScript gagal dimuat.
 
+### Tampilan dan interaksi
+
+- **Warna kategori.** Tiap jenis perlindungan punya warna sendiri lewat kelas `tone-*` di `components.css`: `tone-rose` (kesehatan), `tone-blue` (jiwa), `tone-amber` (kendaraan), dan `tone-teal` (properti & usaha). Ikon, eyebrow, tag, kotak catatan, dan meter di dalam elemen bertanda itu ikut berwarna. Warna ini dipakai di kartu kategori Beranda, di bilah kategori dan tiap bagian halaman Solusi, dan di hasil kalkulator. Kalau menambah warna baru, pastikan kontras teksnya minimal 4,5:1.
+- **Kartu kategori di Beranda** bisa diklik di seluruh permukaannya. Tautannya ada di judul (`card__link`) dan mengarah ke bagian yang sesuai di Solusi.
+- **Slider kartu di HP** diberi titik penanda posisi di bawahnya. Titik dibuat oleh `main.js` dan hanya tampil di layar di bawah 600 px.
+- **Bilah kategori di Solusi** menandai kategori yang sedang dibaca saat halaman di-scroll. Di HP, kategori aktif digeser ke tengah bilah.
+- **Menu HP** menggelapkan halaman di belakangnya. Menu tertutup bila area gelap diklik, tombol Esc ditekan, atau salah satu tautan dipilih.
+- **Banner kalkulator** di Beranda dan Solusi menampilkan "Contoh hasil simulasi" dengan angka dari contoh klien (Rp 560.000.000). Bagian ini hanya hiasan dan disembunyikan dari pembaca layar. Kalau angkanya diganti, ubah di kedua halaman. Saat banner terlihat, kartu contoh muncul memantul, angkanya menghitung naik dari Rp 0 sampai angka di HTML, meternya terisi, lalu kartu melayang pelan. Animasinya diatur di `main.js` dan `pages.css` (bagian "Animasi pop banner kalkulator").
+- **Ilustrasi** ada di `assets/img/ilustrasi/`: 13 ilustrasi SVG bergaya flat dengan warna website, ditambah dua versi diam. Semuanya dibuat khusus untuk proyek ini dan tidak mengandung logo apa pun. Hero Beranda dan Solusi memakai ilustrasi tanpa latar (`hero__art`). Di Beranda, perisai dikelilingi delapan ikon perlindungan pada cincin yang berputar pelan (`perlindungan.svg`). Di Solusi, perisai terhubung ke empat ikon kategori bercahaya lewat garis yang mengalir (`solusi.svg`). Pengunjung yang memilih "kurangi gerakan" mendapat versi `-diam.svg` lewat `<picture>`, karena animasi di dalam file SVG tidak bisa dimatikan dari CSS halaman. Ilustrasi di hero halaman teks (`edu-hero__art`) tampil di kanan pada layar lebar dan di bawah teks pada HP, lalu melayang pelan (animasi `float-soft`). Kotak gambar berisi ilustrasi diberi kelas `ph--art`, supaya di HP tetap 4:3 dan tokohnya tidak terpotong.
+- **Langkah konsultasi** di Beranda dan Tentang Saya memakai komponen garis waktu `.steps`. Di HP tersusun ke bawah, di layar lebar menjadi tiga kolom.
+
 ### Header dan footer
 
 Karena website ini statis, header dan footer **ditulis ulang di setiap file HTML**: 9 file saat ini, ditambah halaman artikel nanti. Perubahan menu atau footer harus dilakukan di semua file (lihat [5.6](#56-menu-navigasi-dan-footer)).
@@ -187,8 +202,8 @@ Semua teks yang menunggu data klien ditulis dalam kurung siku, misalnya `[Nama U
 
 | Placeholder | Tempat | Diisi dengan |
 |---|---|---|
-| `[Nama Usaha]` | Semua halaman: judul tab, header, footer | Nama usaha atau brand. Ganti sekaligus dengan `Ctrl+Shift+H`. |
-| `[Nama Konsultan]`, `[Jabatan]` | Beranda, Tentang Saya | Nama dan jabatan konsultan |
+| `[Nama Usaha]` | Semua halaman: judul tab, header, footer | Nama usaha atau brand, **tanpa kata "Manulife"** (lihat [bagian 8](#8-ketentuan-konten-asuransi)). Ganti sekaligus dengan `Ctrl+Shift+H`. |
+| `[Nama Konsultan]`, `[Jabatan]` | Beranda, Tentang Saya, disclaimer afiliasi di footer semua halaman, Kebijakan Privasi | Nama dan jabatan konsultan |
 | `[nomor]`, `[email]`, `[alamat kantor]` | Footer semua halaman, Kontak | Kontak klien |
 | `[Jam operasional]`, `[jam]` | Band ajakan konsultasi, Konsultasi, Kontak | Jam layanan |
 | `[Deskripsi singkat usaha, ...]` | Footer | Satu atau dua kalimat tentang usaha |
@@ -200,6 +215,8 @@ Semua teks yang menunggu data klien ditulis dalam kurung siku, misalnya `[Nama U
 Bagian yang datanya tidak tersedia **dihapus**. Jangan dibiarkan berisi `[...]`, dan jangan diisi karangan. Komentar `<!-- GANTI: ... -->` di HTML menunjukkan bagian yang perlu diperiksa.
 
 ### 5.3 Foto
+
+Sebagian tempat gambar sekarang berisi **ilustrasi**: hero Beranda, hero Solusi, dua gambar di bagian Kesehatan dan Jiwa (Solusi), gambar artikel (Beranda dan Edukasi), dan ilustrasi kecil di hero halaman Kalkulator, Edukasi, Tanya Jawab, Kontak, Konsultasi, dan Kebijakan Privasi. Ilustrasi itu boleh tetap dipakai. Kalau ingin diganti foto, ganti alamat `src` pada `<img>` dan hapus kelas `ph--art` dari kotaknya, supaya fokus foto kembali agak ke atas. Khusus hero Beranda dan Solusi, ilustrasinya tidak berada di dalam kotak. Untuk memakai foto di sana, ganti seluruh `<picture>` dengan kotak `<div class="ph hero__photo">` berisi `<img>` seperti contoh di bawah. Tempat foto konsultan (profil di Beranda dan hero Tentang Saya) masih menunggu foto asli dari klien.
 
 1. **Siapkan foto.** Gunakan format WebP atau JPG. Lebar sekitar 1600 px untuk foto besar (hero, profil) dan 800 px untuk gambar kartu artikel. Kompres dulu, misalnya di [squoosh.app](https://squoosh.app), sampai ukurannya kira-kira di bawah 300 KB.
 2. **Simpan** di `assets/img/`, dengan nama file huruf kecil tanpa spasi, misalnya `foto-konsultan.webp`.
@@ -218,10 +235,12 @@ Bagian yang datanya tidak tersedia **dihapus**. Jangan dibiarkan berisi `[...]`,
    ```
 
    - Hapus `role`, `aria-label`, dan teks placeholder. Deskripsi foto pindah ke `alt`.
+   - Ikon gambar (atau ikon orang di tempat foto konsultan) di tengah kotak placeholder otomatis tertutup foto, jadi tidak perlu dihapus.
    - Foto otomatis memenuhi kotak dan dipotong rapi, dengan fokus agak ke atas agar wajah tidak terpotong. Kalau bagian penting foto tetap terpotong, atur titik fokusnya, misalnya `<img ... style="object-position: 50% 10%">`.
    - Kalau di dalam kotak ada label kategori (`article-card__chip`, di halaman Edukasi), biarkan label itu. Cukup hapus teks placeholder dan tambahkan `<img>`.
    - Di file dalam folder `edukasi/`, alamat foto diawali `../`, contoh `../assets/img/artikel-1.webp`.
    - Untuk foto yang tidak terlihat di layar pertama (semua selain foto hero), tambahkan `loading="lazy"` agar halaman lebih cepat dibuka.
+   - Jangan memakai foto yang memperlihatkan logo Manulife. Pakai hanya foto milik sendiri atau yang berlisensi (lihat [bagian 8](#8-ketentuan-konten-asuransi)).
 
 ### 5.4 Warna dan font
 
@@ -235,17 +254,19 @@ Warna utama ada di `assets/css/base.css`, blok `:root`:
 
 Blok di bawahnya (`.theme-dark, .hero, ...`) mengatur warna di area gelap, yaitu hero dan footer. Kalau warna brand diganti, sesuaikan kedua blok.
 
+Warna khas tiap kategori perlindungan ada di `assets/css/components.css`, bagian "Warna kategori" (lihat [Tampilan dan interaksi](#tampilan-dan-interaksi)). Warna tombol WhatsApp diatur lewat `--color-wa` di `base.css`.
+
 Font diatur lewat `--font-heading` dan `--font-body`, dan dimuat oleh tag `<link href="https://fonts.googleapis.com/...">` di `<head>` setiap halaman. Kalau font diganti, ubah keduanya.
 
 ### 5.5 Logo dan favicon
 
-Saat ini nama usaha di header berupa teks. Untuk memakai logo, ganti isi tautan `brand` di header setiap halaman:
+Saat ini header dan footer menampilkan lambang sementara (perisai biru, `<span class="brand__mark">`) diikuti nama usaha dalam bentuk teks. Untuk memakai logo, ganti **seluruh** isi tautan `brand` di header setiap halaman, termasuk span lambang itu:
 
 ```html
 <a class="brand" href="index.html"><img src="assets/img/logo.svg" alt="[Nama Usaha]" height="36"></a>
 ```
 
-Footer berlatar gelap, jadi siapkan versi logo berwarna terang jika logo juga dipasang di sana.
+Footer berlatar gelap, jadi siapkan versi logo berwarna terang jika logo juga dipasang di sana. Kalau logo belum ada, lambang sementara boleh tetap dipakai.
 
 Untuk ikon kecil di tab browser (favicon), tambahkan baris ini di `<head>` setiap halaman:
 
@@ -304,7 +325,7 @@ Website ini bisa dihosting di layanan hosting statis mana pun. Netlify paling mu
 
 ### Memasang domain sendiri
 
-1. Beli domain (misalnya `.com` atau `.id`) di registrar domain, **atas nama klien**.
+1. Beli domain (misalnya `.com` atau `.id`) di registrar domain, **atas nama klien**. Nama domain tidak boleh memakai kata "Manulife" (lihat [bagian 8](#8-ketentuan-konten-asuransi)).
 2. Di pengaturan domain Netlify, tambahkan domain tersebut, lalu atur DNS di panel registrar sesuai petunjuk dari Netlify.
 3. HTTPS (ikon gembok) dipasang otomatis oleh Netlify setelah DNS aktif. Perubahan DNS bisa memakan waktu hingga 24–48 jam.
 
@@ -372,28 +393,47 @@ Checklist pengujian yang lebih rinci, beserta hasilnya, ada di `docs/checklist-q
 - [ ] Kebijakan Privasi: tanggal dan nama hosting terisi, dan kalimat yang menunggu konfirmasi klien sudah diputuskan.
 - [ ] `robots.txt` dan `sitemap.xml` terisi dengan domain asli.
 - [ ] Klien sudah menyetujui seluruh teks, terutama FAQ dan penjelasan produk.
+- [ ] Website sudah dicek terhadap pedoman Manulife Agency ([bagian 8](#8-ketentuan-konten-asuransi)): tidak ada logo Manulife (termasuk di foto), nama Manulife hanya muncul di disclaimer afiliasi, disclaimer ada di footer semua halaman, dan tidak ada klaim berlebihan. Hal yang meragukan sudah dikonfirmasi klien ke BDM atau TH-nya.
 - [ ] Akun hosting dan domain atas nama klien, dan source code sudah diserahkan.
 
 ---
 
 ## 8. Ketentuan konten asuransi
 
-Ringkasan bagian 9 proposal. Berlaku untuk siapa pun yang mengubah isi website.
+Berlaku untuk siapa pun yang mengubah isi website. Klien adalah Tenaga Pemasar Manulife Indonesia. Karena itu, website ini termasuk "materi komunikasi yang dibuat sendiri" dan wajib mengikuti pedoman Manulife Agency, yaitu "Penting: Dilarang Menggunakan Logo Manulife" dan "Social Media Guideline" (diterima dari klien pada 1 November 2026). Pelanggaran pedoman itu dapat berujung tindakan disiplin bagi klien, hingga pemutusan kontrak.
 
-- Jangan menjanjikan manfaat, premi, hasil investasi, atau persetujuan klaim.
+### Logo dan nama Manulife
+
+- **Logo Manulife dilarang dalam bentuk apa pun.** Logo tidak boleh dipasang, dimodifikasi, dibuat ulang, atau ditempatkan seolah-olah website ini materi resmi perusahaan. Larangan ini juga berlaku untuk logo yang terlihat di foto (misalnya latar acara, banner kantor, atau seragam berlogo), gambar artikel, favicon, dan gambar pratinjau tautan.
+- **Nama "Manulife" hanya dipakai untuk menyebut afiliasi** di disclaimer. Jangan memakainya sebagai nama usaha, nama domain, nama akun media sosial, atau di judul halaman. Kalau klien ingin menyebut Manulife di bagian lain, tanyakan dulu ke BDM atau TH-nya.
+- Jangan membuat tampilan website menyerupai website resmi Manulife.
+- **Disclaimer afiliasi di footer semua halaman wajib ada dan tidak boleh dihapus.** Isinya mengikuti contoh disclaimer di pedoman: website dikelola pribadi oleh Tenaga Pemasar, bukan website resmi Manulife, isinya pandangan pribadi, dan Manulife tidak bertanggung jawab atas isinya. Halaman baru, termasuk halaman artikel, harus memakai footer yang sama.
+
+### Isi dan klaim
+
+- Jangan menjanjikan manfaat, premi, hasil investasi, keuntungan, atau persetujuan klaim. Jangan menyampaikan informasi pendapatan atau promosi yang tidak dapat dipertanggungjawabkan.
+- Jangan membuat pernyataan atas nama perusahaan, termasuk opini atau klaim yang bisa dianggap mewakili Manulife.
+- Jangan menjelekkan pihak lain, baik perusahaan asuransi lain, industri, maupun perorangan.
+- Materi produk hanya diambil dari materi resmi Manulife Indonesia, tanpa diubah, dipotong, atau dijadikan meme. Informasi harus akurat dan bersumber dari kanal resmi. Jangan memakai konten dari sumber yang tidak jelas.
+- Penjelasan produk bersifat umum, dan ketentuan lengkap mengikuti polis resmi. Jangan menghapus disclaimer umum di footer.
 - Jangan mencantumkan sertifikasi, lisensi, nomor izin, lama pengalaman, angka statistik, atau testimoni yang tidak dapat dibuktikan.
-- Logo dan nama perusahaan asuransi hanya boleh ditampilkan jika klien memiliki izin.
-- Penjelasan produk bersifat umum, dan ketentuan lengkap mengikuti polis resmi. Jangan menghapus disclaimer di footer.
-- Formulir tidak boleh meminta data sensitif seperti NIK, data kesehatan, nomor polis, atau rekening.
-- Klien bertanggung jawab atas kebenaran informasi dan kepatuhan terhadap ketentuan yang berlaku bagi bisnisnya.
+
+### Data, hak cipta, dan interaksi
+
+- Jangan menampilkan data nasabah, kebijakan internal, atau informasi rahasia lain. Testimoni hanya boleh dimuat dengan izin dari orang yang bersangkutan.
+- Formulir tidak boleh meminta data sensitif seperti NIK, data kesehatan, nomor polis, atau rekening. Diskusi pribadi diarahkan ke WhatsApp, bukan ke kolom publik.
+- Foto, ikon, musik, dan video hanya yang milik sendiri atau berlisensi, dengan kredit bila diwajibkan.
+
+Kalau ragu apakah suatu isi boleh dimuat, klien perlu menanyakannya dulu ke BDM atau TH-nya sebelum website diubah. Klien tetap bertanggung jawab atas kebenaran informasi dan kepatuhan terhadap ketentuan yang berlaku bagi bisnisnya.
 
 ---
 
 ## 9. Teknologi dan lisensi
 
-- **Teknologi:** HTML, CSS, dan JavaScript tanpa library. Total JavaScript sekitar 14 KB.
+- **Teknologi:** HTML, CSS, dan JavaScript tanpa library. Total JavaScript sekitar 16 KB.
 - **Browser:** versi terbaru Chrome, Edge, Firefox, dan Safari, baik desktop maupun HP. Beberapa efek, seperti blur pada header dan sorotan pertanyaan yang sedang terbuka, memakai fitur CSS yang baru. Di browser lama efek itu tidak tampil, tetapi website tetap berfungsi.
-- **Font:** [Inter](https://fonts.google.com/specimen/Inter) dan [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) dari Google Fonts, dengan lisensi SIL Open Font License 1.1 yang mengizinkan penggunaan komersial.
+- **Font:** [Quicksand](https://fonts.google.com/specimen/Quicksand) untuk judul dan [Nunito](https://fonts.google.com/specimen/Nunito) untuk teks isi, dari Google Fonts, dengan lisensi SIL Open Font License 1.1 yang mengizinkan penggunaan komersial.
+- **Ilustrasi** di `assets/img/ilustrasi/` dibuat khusus untuk proyek ini (bukan aset pihak ketiga), sehingga bebas dipakai dan diubah oleh klien.
 - **Ikon:** berasal dari set ikon [Lucide](https://lucide.dev), lisensi ISC. Copyright © Lucide Contributors; sebagian © Cole Bemis (Feather, lisensi MIT). Teks lisensi lengkap: <https://lucide.dev/license>.
 - **Foto, logo, dan teks dari klien** menjadi tanggung jawab klien, termasuk hak ciptanya.
 

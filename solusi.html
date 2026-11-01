@@ -12,7 +12,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/pages.css">
@@ -53,7 +53,7 @@
 
 <header class="site-header">
   <div class="container site-header__inner">
-    <a class="brand" href="index.html">[Nama Usaha]</a>
+    <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>[Nama Usaha]</a>
 
     <nav class="nav" id="site-nav" aria-label="Navigasi utama">
       <ul class="nav__list">
@@ -106,8 +106,11 @@
         </p>
       </div>
       <div class="hero__media">
-        <!-- GANTI: foto dari klien atau foto stok berlisensi -->
-        <div class="ph hero__photo" role="img" aria-label="Tempat foto utama">Foto utama (dari klien)</div>
+        <!-- Ilustrasi kategori perlindungan tanpa latar (lihat README 5.3). Versi -diam dipakai bila pengunjung memilih "kurangi gerakan". -->
+        <picture>
+          <source srcset="assets/img/ilustrasi/solusi-diam.svg" media="(prefers-reduced-motion: reduce)">
+          <img class="hero__art" src="assets/img/ilustrasi/solusi.svg" alt="Ilustrasi perisai perlindungan yang terhubung ke empat kategori: kesehatan, jiwa, kendaraan, serta properti dan usaha" width="520" height="520">
+        </picture>
       </div>
     </div>
   </section>
@@ -116,23 +119,23 @@
   <nav class="cat-nav" aria-label="Kategori perlindungan">
     <div class="container">
       <ul>
-        <li><a href="#kesehatan"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg>Asuransi Kesehatan</a></li>
-        <li><a href="#jiwa"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg>Asuransi Jiwa</a></li>
-        <li><a href="#kendaraan"><svg class="icon" aria-hidden="true"><use href="#i-car"/></svg>Asuransi Kendaraan</a></li>
-        <li><a href="#usaha"><svg class="icon" aria-hidden="true"><use href="#i-building"/></svg>Properti &amp; Usaha</a></li>
+        <li class="tone-rose"><a href="#kesehatan"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg>Asuransi Kesehatan</a></li>
+        <li class="tone-blue"><a href="#jiwa"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg>Asuransi Jiwa</a></li>
+        <li class="tone-amber"><a href="#kendaraan"><svg class="icon" aria-hidden="true"><use href="#i-car"/></svg>Asuransi Kendaraan</a></li>
+        <li class="tone-teal"><a href="#usaha"><svg class="icon" aria-hidden="true"><use href="#i-building"/></svg>Properti &amp; Usaha</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- 01 Kesehatan -->
   <section class="section">
-    <div class="container sol" id="kesehatan">
+    <div class="container sol tone-rose" id="kesehatan">
       <div class="sol__intro">
         <span class="eyebrow">01 &bull; Kesehatan</span>
         <h2>Asuransi Kesehatan</h2>
         <p>Membantu menanggung biaya perawatan medis sehingga tabungan keluarga tidak terkuras ketika sakit atau membutuhkan rawat inap.</p>
         <p><strong>Cocok untuk:</strong> individu, keluarga, dan siapa pun yang ingin melengkapi perlindungan dari BPJS Kesehatan atau asuransi kantor.</p>
-        <div class="ph sol__img" role="img" aria-label="Gambar ilustrasi kesehatan">Gambar ilustrasi</div>
+        <div class="ph ph--art sol__img"><img src="assets/img/ilustrasi/kesehatan.svg" alt="Ilustrasi perlindungan kesehatan" width="480" height="360" loading="lazy"></div>
       </div>
       <div>
         <div class="feature-grid">
@@ -172,13 +175,13 @@
 
   <!-- 02 Jiwa -->
   <section class="section section--tint">
-    <div class="container sol sol--rev" id="jiwa">
+    <div class="container sol sol--rev tone-blue" id="jiwa">
       <div class="sol__intro">
         <span class="eyebrow">02 &bull; Jiwa</span>
         <h2>Asuransi Jiwa</h2>
         <p>Memberikan uang pertanggungan kepada ahli waris bila tertanggung meninggal dunia, sehingga keluarga tetap memiliki dana untuk kebutuhan hidup, pendidikan anak, atau melunasi cicilan.</p>
         <p><strong>Cocok untuk:</strong> pencari nafkah yang memiliki tanggungan, seperti pasangan, anak, atau orang tua.</p>
-        <div class="ph sol__img" role="img" aria-label="Gambar ilustrasi keluarga">Gambar ilustrasi</div>
+        <div class="ph ph--art sol__img"><img src="assets/img/ilustrasi/jiwa.svg" alt="Ilustrasi ibu dan anak berlindung di bawah payung saat hujan" width="480" height="360" loading="lazy"></div>
       </div>
       <div class="card">
         <h3>Dua jenis yang paling umum</h3>
@@ -211,7 +214,7 @@
 
   <!-- 03 Kendaraan -->
   <section class="section">
-    <div class="container sol" id="kendaraan">
+    <div class="container sol tone-amber" id="kendaraan">
       <div class="sol__intro">
         <span class="eyebrow">03 &bull; Kendaraan</span>
         <h2>Asuransi Kendaraan</h2>
@@ -255,7 +258,7 @@
 
   <!-- 04 Properti & Usaha -->
   <section class="section section--tint">
-    <div class="container sol" id="usaha">
+    <div class="container sol tone-teal" id="usaha">
       <div class="sol__intro">
         <span class="eyebrow">04 &bull; Properti &amp; usaha</span>
         <h2>Asuransi Properti &amp; Usaha</h2>
@@ -322,13 +325,20 @@
         </ol>
       </div>
       <div class="calc-promo">
-        <span class="card__icon"><svg class="icon" aria-hidden="true"><use href="#i-calc"/></svg></span>
-        <div>
+        <div class="calc-promo__text">
+          <span class="card__icon"><svg class="icon" aria-hidden="true"><use href="#i-calc"/></svg></span>
           <h3>Berapa perlindungan yang Anda butuhkan?</h3>
           <p>Gunakan kalkulator protection gap untuk memperkirakan kekurangan perlindungan jiwa dan penyakit kritis, lalu diskusikan hasilnya bersama kami.</p>
+          <a class="btn btn--light" href="kalkulator.html">Coba Kalkulator
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </div>
-        <a class="btn btn--primary" href="kalkulator.html">Coba Kalkulator
-          <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <!-- Contoh tampilan hasil (angka dari contoh klien), hanya hiasan -->
+        <div class="calc-promo__preview" aria-hidden="true">
+          <p class="calc-promo__label">Contoh hasil simulasi</p>
+          <p class="calc-promo__value">Rp 560.000.000</p>
+          <div class="meter"><div class="meter__fill" style="width:15%"></div></div>
+          <p class="calc-promo__caption">Estimasi kesenjangan perlindungan jiwa keluarga</p>
+        </div>
       </div>
     </div>
   </section>
@@ -387,7 +397,7 @@
           </p>
         </div>
         <div class="cta-band__actions" style="flex-direction:column">
-          <a class="btn btn--light" data-wa href="https://wa.me/6281200000000">
+          <a class="btn btn--wa" data-wa href="https://wa.me/6281200000000">
             <svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg>
             Konsultasi via WhatsApp
           </a>
@@ -406,7 +416,7 @@
   <div class="container">
     <div class="site-footer__grid">
       <div>
-        <p class="brand">[Nama Usaha]</p>
+        <p class="brand"><span class="brand__mark" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>[Nama Usaha]</p>
         <p>[Deskripsi singkat usaha, diisi dari data klien.]</p>
       </div>
       <nav aria-label="Navigasi footer">
@@ -431,7 +441,11 @@
       </div>
     </div>
     <div class="site-footer__bottom">
-      <p>&copy; <span data-year>2025</span> [Nama Usaha]. Informasi di website ini bersifat umum dan bukan penawaran atau jaminan manfaat. Ketentuan lengkap mengikuti polis resmi perusahaan asuransi.</p>
+      <div class="site-footer__legal">
+        <p>&copy; <span data-year>2025</span> [Nama Usaha]. Informasi di website ini bersifat umum dan bukan penawaran atau jaminan manfaat. Ketentuan lengkap mengikuti polis resmi perusahaan asuransi.</p>
+        <!-- Disclaimer afiliasi: wajib menurut pedoman Manulife Agency, jangan dihapus (lihat README bagian 8) -->
+        <p>Website ini dikelola secara pribadi oleh [Nama Konsultan], Tenaga Pemasar Manulife Indonesia, dan bukan website resmi Manulife. Isi website ini merupakan pandangan pribadi dan tidak mewakili Manulife. Manulife tidak bertanggung jawab atas konten apa pun di website ini.</p>
+      </div>
       <ul>
         <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
         <li><a href="kontak.html">Kontak</a></li>

@@ -12,7 +12,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/pages.css">
@@ -37,7 +37,7 @@
 
 <header class="site-header">
   <div class="container site-header__inner">
-    <a class="brand" href="../index.html">[Nama Usaha]</a>
+    <a class="brand" href="../index.html"><span class="brand__mark" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>[Nama Usaha]</a>
 
     <nav class="nav" id="site-nav" aria-label="Navigasi utama">
       <ul class="nav__list">
@@ -73,6 +73,7 @@
       </span>
       <h1>Pusat Wawasan &amp; Edukasi Asuransi</h1>
       <p>Panduan dasar untuk memahami cara kerja asuransi, membaca polis, dan mempersiapkan klaim, ditulis dengan bahasa yang mudah dipahami.</p>
+      <img class="edu-hero__art" src="../assets/img/ilustrasi/hero-edukasi.svg" alt="" width="360" height="260">
     </div>
   </section>
 
@@ -81,7 +82,7 @@
     <div class="container">
       <span class="eyebrow">Artikel pilihan</span>
       <article class="featured">
-        <div class="ph featured__img" role="img" aria-label="Gambar artikel">Gambar artikel</div>
+        <div class="ph ph--art featured__img"><img src="../assets/img/ilustrasi/artikel-dasar.svg" alt="" width="480" height="270" loading="lazy"></div>
         <div class="featured__body">
           <div class="article-card__meta"><span>Dasar asuransi</span><span>[x] menit baca</span></div>
           <h2 id="judul-unggulan"><a href="artikel-1.html">[Judul artikel 1]</a></h2>
@@ -108,9 +109,9 @@
       </div>
       <div class="grid-3">
         <article class="card article-card">
-          <div class="ph article-card__img" role="img" aria-label="Gambar artikel">
+          <div class="ph ph--art article-card__img">
             <span class="article-card__chip">Panduan polis</span>
-            Gambar artikel
+            <img src="../assets/img/ilustrasi/artikel-polis.svg" alt="" width="480" height="270" loading="lazy">
           </div>
           <div class="article-card__body">
             <div class="article-card__meta"><span>Panduan polis</span><span>[x] menit baca</span></div>
@@ -121,9 +122,9 @@
           </div>
         </article>
         <article class="card article-card">
-          <div class="ph article-card__img" role="img" aria-label="Gambar artikel">
+          <div class="ph ph--art article-card__img">
             <span class="article-card__chip">Tips klaim</span>
-            Gambar artikel
+            <img src="../assets/img/ilustrasi/artikel-klaim.svg" alt="" width="480" height="270" loading="lazy">
           </div>
           <div class="article-card__body">
             <div class="article-card__meta"><span>Tips klaim</span><span>[x] menit baca</span></div>
@@ -150,7 +151,7 @@
           </p>
         </div>
         <div class="cta-band__actions" style="flex-direction:column">
-          <a class="btn btn--light" data-wa href="https://wa.me/6281200000000">
+          <a class="btn btn--wa" data-wa href="https://wa.me/6281200000000">
             <svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg>
             Diskusi via WhatsApp
           </a>
@@ -169,7 +170,7 @@
   <div class="container">
     <div class="site-footer__grid">
       <div>
-        <p class="brand">[Nama Usaha]</p>
+        <p class="brand"><span class="brand__mark" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>[Nama Usaha]</p>
         <p>[Deskripsi singkat usaha, diisi dari data klien.]</p>
       </div>
       <nav aria-label="Navigasi footer">
@@ -194,7 +195,11 @@
       </div>
     </div>
     <div class="site-footer__bottom">
-      <p>&copy; <span data-year>2025</span> [Nama Usaha]. Informasi di website ini bersifat umum dan bukan penawaran atau jaminan manfaat. Ketentuan lengkap mengikuti polis resmi perusahaan asuransi.</p>
+      <div class="site-footer__legal">
+        <p>&copy; <span data-year>2025</span> [Nama Usaha]. Informasi di website ini bersifat umum dan bukan penawaran atau jaminan manfaat. Ketentuan lengkap mengikuti polis resmi perusahaan asuransi.</p>
+        <!-- Disclaimer afiliasi: wajib menurut pedoman Manulife Agency, jangan dihapus (lihat README bagian 8) -->
+        <p>Website ini dikelola secara pribadi oleh [Nama Konsultan], Tenaga Pemasar Manulife Indonesia, dan bukan website resmi Manulife. Isi website ini merupakan pandangan pribadi dan tidak mewakili Manulife. Manulife tidak bertanggung jawab atas konten apa pun di website ini.</p>
+      </div>
       <ul>
         <li><a href="../kebijakan-privasi.html">Kebijakan Privasi</a></li>
         <li><a href="../kontak.html">Kontak</a></li>
