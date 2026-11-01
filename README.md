@@ -20,11 +20,11 @@ Website ini **statis**: HTML, CSS, dan JavaScript biasa. Tidak ada server, datab
 
 ## 1. Status proyek
 
-Per 31 Oktober 2026:
+Per 1 November 2026:
 
 | Bagian | Status |
 |---|---|
-| 8 halaman utama: Beranda, Tentang Saya, Solusi, Edukasi, Tanya Jawab, Kontak, Konsultasi Gratis, Kebijakan Privasi | Selesai dibuat, isi masih placeholder |
+| 9 halaman utama: Beranda, Tentang Saya, Solusi, Kalkulator Protection Gap, Edukasi, Tanya Jawab, Kontak, Konsultasi Gratis, Kebijakan Privasi | Selesai dibuat, isi masih placeholder |
 | Halaman artikel `edukasi/artikel-1.html` sampai `artikel-3.html` | **Belum dibuat.** File masih kosong, jadi tautannya menampilkan halaman putih. |
 | `robots.txt` dan `sitemap.xml` | **Kosong.** Diisi setelah domain ada (contoh isinya di [bagian 6](#6-deployment)). |
 | `docs/checklist-qa.md` | Terisi: checklist dan hasil pengujian per 31 Oktober 2026 |
@@ -35,6 +35,7 @@ Per 31 Oktober 2026:
 - Validasi formulir: 15 kasus uji lolos (nomor valid dan tidak valid, field wajib, batas panjang pesan).
 - Tampilan kedelapan halaman di desktop (1366 px) dan mobile (390 px), lewat screenshot.
 - Struktur HTML dengan `docs/qa-check.js`: 198 tautan internal, id, atribut ARIA, judul, dan deskripsi halaman. Satu-satunya masalah: tautan ke 3 halaman artikel yang masih kosong.
+- Kalkulator protection gap (1 November 2026, Edge headless): angka contoh klien (pengeluaran 5 juta, perlindungan 100 juta, 11 tahun) menghasilkan kebutuhan Rp 660.000.000 dan kesenjangan Rp 560.000.000, sama dengan contoh. Juga dicek: rincian tambahan, bagian hasil yang tersembunyi saat isiannya kosong, format ribuan, dan isi pesan WhatsApp. Tampilan dicek di 390 px dan 1366 px. Setelah halaman ini ditambahkan, `qa-check.js` memeriksa 240 tautan dan hanya menemukan masalah lama yang sama.
 - Penempatan foto asli di kotak placeholder, lewat halaman uji dengan foto contoh.
 
 **Belum diuji:** animasi dan klik di browser sungguhan, tampilan di HP asli, Firefox dan Safari, alur formulir ke WhatsApp dengan nomor klien, dan skor Lighthouse.
@@ -64,6 +65,7 @@ Web Assurance/
 ├── index.html               Beranda
 ├── tentang.html             Tentang Saya
 ├── solusi.html              Solusi Perlindungan
+├── kalkulator.html          Kalkulator Protection Gap (jiwa + penyakit kritis)
 ├── konsultasi.html          Konsultasi Gratis (formulir → WhatsApp)
 ├── faq.html                 Tanya Jawab
 ├── kontak.html              Hubungi Kami (kanal kontak + formulir)
@@ -79,6 +81,7 @@ Web Assurance/
 │   ├── js/
 │   │   ├── main.js          Nomor WhatsApp, menu HP, header, animasi scroll
 │   │   ├── form.js          Validasi formulir dan penyusunan pesan WhatsApp
+│   │   ├── kalkulator.js    Hitungan kalkulator protection gap dan pesan WhatsApp hasilnya
 │   │   └── faq.js           Accordion tanya jawab (Beranda, Solusi, Tanya Jawab)
 │   ├── img/                 Foto dan logo dari klien
 │   └── fonts/               Kosong (font dimuat dari Google Fonts)
@@ -113,6 +116,25 @@ Formulir ada di halaman **Konsultasi Gratis** dan **Hubungi Kami**. Formulir ini
 
 Kalau kelak data juga ingin dikirim ke email, dibutuhkan layanan formulir pihak ketiga. Dalam hal itu, **Kebijakan Privasi wajib diperbarui**, karena isinya sekarang menyatakan website tidak menyimpan data.
 
+### Kalkulator protection gap
+
+Halaman `kalkulator.html` memperkirakan kesenjangan perlindungan (*protection gap*) asuransi jiwa dan penyakit kritis. Tampilan dan alurnya mengikuti contoh dari klien (1 November 2026): 4 isian utama dan hasil yang langsung berubah tanpa tombol. Periode kebutuhan diketik, tidak memakai slider seperti di contoh. Menu **Kalkulator** ada di semua halaman, dan kotak ajakan ke kalkulator ada di Beranda (di bawah kartu kategori solusi) dan di Solusi (di bawah panduan prioritas).
+
+Rumus yang dipakai `kalkulator.js` (fungsi `hitungGap`). Rumus yang sama juga dijelaskan kepada pengunjung di bagian "Cara Kalkulator Menghitung":
+
+| | Kebutuhan | Dikurangi |
+|---|---|---|
+| Jiwa | pengeluaran bulanan keluarga × 12 × periode kebutuhan + sisa utang + dana pendidikan anak + dana darurat & biaya lain | perlindungan jiwa yang dimiliki + tabungan & investasi |
+| Penyakit kritis | penghasilan bulanan × 12 × 3, 4, atau 5 tahun (awalnya 3) | santunan penyakit kritis yang dimiliki |
+
+Tanpa rincian tambahan, rumus jiwa sama dengan contoh klien: pengeluaran × 12 × periode, dikurangi perlindungan yang dimiliki. Kesenjangan tidak pernah di bawah Rp 0. Inflasi dan hasil pengembangan dana tidak dihitung, dan hal ini tertulis di catatan hasil.
+
+- **Isian utama:** penghasilan bulanan, pengeluaran bulanan keluarga, perlindungan jiwa yang dimiliki, dan periode kebutuhan (diketik, 1–40 tahun, awalnya terisi 10). Hasil asuransi jiwa muncul begitu pengeluaran diisi dan periodenya valid. Hasil penyakit kritis muncul begitu penghasilan diisi. Bila periode di luar 1–40, pesan error tampil setelah kolom ditinggalkan.
+- **Rincian tambahan (opsional):** utang, dana pendidikan, dana darurat, tabungan, santunan penyakit kritis, dan pilihan 3–5 tahun penghasilan. Semuanya ada di bagian yang bisa dibuka (`<details class="calc__more">`). Isian yang kosong dihitung Rp 0.
+- **Privasi:** semua hitungan dilakukan di browser. Tombol **Diskusikan Hasil via WhatsApp** membuka WhatsApp dengan ringkasan hasil saja (kebutuhan, yang dimiliki, dan kesenjangan per jenis), bukan isian satu per satu. Data baru terkirim bila pengunjung menekan kirim di WhatsApp. Hal ini juga dijelaskan di Kebijakan Privasi bagian 2 dan 3.
+
+Kalau rumus diubah, ubah juga penjelasan di bagian "Cara Kalkulator Menghitung" di `kalkulator.html`, supaya yang ditampilkan ke pengunjung tetap sesuai.
+
 ### Tombol WhatsApp
 
 Semua tautan WhatsApp memakai atribut `data-wa`. Saat halaman dibuka, `main.js` mengisi alamat tautan itu dengan nomor dari `SITE.whatsapp`. Alamat yang tertulis langsung di HTML (`https://wa.me/6281200000000`) hanya cadangan bila JavaScript gagal dimuat.
@@ -131,7 +153,7 @@ Satu tombol bisa diberi pesan awal sendiri dengan mengisi atributnya:
 
 ### Header dan footer
 
-Karena website ini statis, header dan footer **ditulis ulang di setiap file HTML**: 8 file saat ini, ditambah halaman artikel nanti. Perubahan menu atau footer harus dilakukan di semua file (lihat [5.6](#56-menu-navigasi-dan-footer)).
+Karena website ini statis, header dan footer **ditulis ulang di setiap file HTML**: 9 file saat ini, ditambah halaman artikel nanti. Perubahan menu atau footer harus dilakukan di semua file (lihat [5.6](#56-menu-navigasi-dan-footer)).
 
 ---
 
@@ -314,6 +336,7 @@ Sitemap: https://domainanda.com/sitemap.xml
   <url><loc>https://domainanda.com/</loc></url>
   <url><loc>https://domainanda.com/tentang.html</loc></url>
   <url><loc>https://domainanda.com/solusi.html</loc></url>
+  <url><loc>https://domainanda.com/kalkulator.html</loc></url>
   <url><loc>https://domainanda.com/konsultasi.html</loc></url>
   <url><loc>https://domainanda.com/edukasi/</loc></url>
   <url><loc>https://domainanda.com/faq.html</loc></url>
@@ -368,7 +391,7 @@ Ringkasan bagian 9 proposal. Berlaku untuk siapa pun yang mengubah isi website.
 
 ## 9. Teknologi dan lisensi
 
-- **Teknologi:** HTML, CSS, dan JavaScript tanpa library. Total JavaScript sekitar 8 KB.
+- **Teknologi:** HTML, CSS, dan JavaScript tanpa library. Total JavaScript sekitar 14 KB.
 - **Browser:** versi terbaru Chrome, Edge, Firefox, dan Safari, baik desktop maupun HP. Beberapa efek, seperti blur pada header dan sorotan pertanyaan yang sedang terbuka, memakai fitur CSS yang baru. Di browser lama efek itu tidak tampil, tetapi website tetap berfungsi.
 - **Font:** [Inter](https://fonts.google.com/specimen/Inter) dan [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) dari Google Fonts, dengan lisensi SIL Open Font License 1.1 yang mengizinkan penggunaan komersial.
 - **Ikon:** berasal dari set ikon [Lucide](https://lucide.dev), lisensi ISC. Copyright © Lucide Contributors; sebagian © Cole Bemis (Feather, lisensi MIT). Teks lisensi lengkap: <https://lucide.dev/license>.
